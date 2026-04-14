@@ -15,7 +15,7 @@ class DriverSentinel:
         self.root.geometry("1150x850")
         self.root.configure(bg="#020617")
 
-        # --- Detection Variables ---
+        # Detection Variables 
         self.running = False
         self.cap = None
         self.base_x = self.base_y = None
@@ -26,13 +26,12 @@ class DriverSentinel:
         self.face_loss_counter = 0
         self.alarm_active = False 
 
-        # --- Adaptive Thresholds ---
+        # Adaptive Thresholds 
         self.mode = "HIGHWAY" 
         self.EYE_LIMIT = 12       
         self.FOCUS_LIMIT = 18     
         self.FACE_LOST_LIMIT = 25 
         
-        # AI Logic
         self.engine = pyttsx3.init()
         self.engine.setProperty('rate', 175)
         self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -50,13 +49,13 @@ class DriverSentinel:
         main_frame = tk.Frame(self.root, bg="#020617")
         main_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # --- Video Panel ---
+        # Video Panel 
         self.video_container = tk.Frame(main_frame, bg="#1e293b", padx=5, pady=5)
         self.video_container.pack(side="left", fill="both", expand=True)
         self.video_label = tk.Label(self.video_container, bg="black")
         self.video_label.pack(fill="both", expand=True)
 
-        # --- Control Panel ---
+        # Control Panel 
         right_panel = tk.Frame(main_frame, bg="#020617", width=300)
         right_panel.pack(side="right", fill="y", padx=(20, 0))
 
@@ -117,24 +116,24 @@ class DriverSentinel:
             self.log_event(f"ALERT: {message}")
             
             def alarm_task():
-                # Verbal Alert (Runs once)
+                # Verbal Alert
                 self.engine.say(message)
                 self.engine.runAndWait()
 
                 # Continuous Beeping Loop
                 while self.alarm_active and self.running:
                     if self.mode == "HIGHWAY":
-                        # EMERGENCY: Piercing, ultra-fast siren
+                        # EMERGENCY:ultra-fast siren
                         winsound.Beep(3800, 150)
                         time.sleep(0.05)
                     else:
-                        # CITY: Firm, double-pulse rhythm (Like a modern car alert)
+                        # CITY:
                         # Pulse 1
                         winsound.Beep(1800, 200)
                         time.sleep(0.1)
                         # Pulse 2
                         winsound.Beep(1800, 200)
-                        time.sleep(0.4) # Brief pause before repeating
+                        time.sleep(0.4) 
                 
             threading.Thread(target=alarm_task, daemon=True).start()
 
